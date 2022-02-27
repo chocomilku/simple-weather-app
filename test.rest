@@ -1,2 +1,2 @@
-GET http://localhost:3000/api/hello
+GET http://localhost:3000/api/
 Content-Type: application/json
