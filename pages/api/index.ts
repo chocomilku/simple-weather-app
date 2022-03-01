@@ -6,6 +6,10 @@ export default async function handler(
 	req: NextApiRequest,
 	res: NextApiResponse<owmStruct>
 ) {
+	/**
+	 * get method query
+	 * @returns object containing parsed query from the url
+	 */
 	const params: queryStruct = req.query;
 	try {
 		res.status(200).json(await api(params.lat, params.lon));
@@ -14,6 +18,12 @@ export default async function handler(
 	}
 }
 
+/**
+ * api proxy from open weather map
+ * @param lat latitude of the specified location
+ * @param lon longitude of the specified location
+ * @returns json containing all weather information with modifiers from the `.env` file
+ */
 const api = async (lat?: number, lon?: number): Promise<owmStruct> => {
 	const result = await axios.get(
 		`${process.env.BASE_API}?${lat ? `lat=${lat}` : ""}&${
