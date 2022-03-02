@@ -1,29 +1,36 @@
-import type { GetServerSideProps } from "next";
+import { useEffect, useState } from "react";
 import { owmStruct } from "../utils/exports";
 
-const Home = ({ data }: { data: owmStruct }) => {
-	console.log(data);
+const Home = () => {
+	// stores the data from the api in this useState hook
+	const [weatherData, setWeatherData] = useState<owmStruct>();
+
+	// fetches data from the api and sets it to the useState hook above
+	useEffect(() => {
+		const fetchData = async () => {
+			const res = await fetch(`/api?lat=24&lon=34`);
+			const data = await res.json();
+			setWeatherData(data);
+		};
+		fetchData().catch(console.error);
+	}, []);
 	return (
 		<>
-			<h1>{data.current.weather[0].main}</h1>
+			{/* conditional if something error happened to the useState hook like if it returned nothing*/}
+			{!weatherData ? (
+				<h1>data doko</h1>
+			) : (
+				<>
+					<h1>{weatherData.current.weather[0].main}</h1>
+					<p>{weatherData.current.weather[0].description}</p>
+					<p>{weatherData.current.temp} celsius</p>
+					<p>feels like {weatherData.current.feels_like} celsius</p>
+					thinking emoji
+					{console.log(weatherData)}
+				</>
+			)}
 		</>
 	);
 };
 
 export default Home;
-
-export const getServerSideProps: GetServerSideProps = async () => {
-	let baseUrl;
-	if (process.env.NODE_ENV === "development") {
-		baseUrl = process.env.API_DEV;
-	} else {
-		baseUrl = process.env.API_PROD;
-	}
-	const res = await fetch(`${baseUrl}/api?lat=24&lon=34`);
-	const data = await res.json();
-	return {
-		props: {
-			data,
-		},
-	};
-};
