@@ -1,9 +1,20 @@
 import { useEffect, useState } from "react";
-import { owmStruct } from "../utils/exports";
+import { coordinates, owmStruct } from "../utils/exports";
 
 const Home = () => {
 	// stores the data from the api in this useState hook
 	const [weatherData, setWeatherData] = useState<owmStruct>();
+	const [coords, setCoords] = useState<coordinates>();
+
+	useEffect(() => {
+		navigator.geolocation.getCurrentPosition((pos) => {
+			setCoords({
+				lat: pos.coords.latitude,
+				lon: pos.coords.longitude,
+			});
+		});
+		console.log(coords);
+	}, [coords]);
 
 	// fetches data from the api and sets it to the useState hook above
 	useEffect(() => {

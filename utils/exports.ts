@@ -62,3 +62,9 @@ interface hourCurrentData extends currentData {
 	pop: number;
 	wind_gust: number;
 }
+
+// coords object
+export type coordinates = {
+	lat: number;
+	lon: number;
+};
