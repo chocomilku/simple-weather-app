@@ -8,7 +8,7 @@ const Home = () => {
 	// stores a specified coordinates in this useState hook. the whole application depends on this
 	const [coords, setCoords] = useState<coordinates>();
 
-	// to stop navigation api asking for location and request to the backend api EVERY SECOND. my precious api, account, IP will be banned lmao, the purpose of this useState hook is to ask location only once.
+	// to stop navigation api asking for location and request to the backend api EVERY SECOND. my precious api, account, IP will be banned lmao. the purpose of this useState hook is to ask the location only once.
 	const [geoOK, setGeoOK] = useState<boolean>(false);
 
 	// fetches data from the api and sets it to the useState hook above
@@ -30,6 +30,7 @@ const Home = () => {
 				const res = await fetch(`/api?lat=${coords.lat}&lon=${coords.lon}`);
 				const data = await res.json();
 				setWeatherData(data);
+				// TODO: reverse geocoding. reference: https://nominatim.org/release-docs/develop/api/Reverse/
 			}
 		};
 		fetchData().catch(console.error);
