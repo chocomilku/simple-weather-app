@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { coordinates, owmStruct } from "../utils/exports";
+import { coordinates, nmStruct, owmStruct } from "../utils/exports";
 
 const Home = () => {
 	// stores the data from the api in this useState hook
@@ -10,6 +10,9 @@ const Home = () => {
 
 	// to stop navigation api asking for location and request to the backend api EVERY SECOND. my precious api, account, IP will be banned lmao. the purpose of this useState hook is to ask the location only once.
 	const [geoOK, setGeoOK] = useState<boolean>(false);
+
+	// reverse geocoding data
+	const [location, setLocation] = useState<nmStruct>();
 
 	// fetches data from the api and sets it to the useState hook above
 	useEffect(() => {
@@ -30,7 +33,11 @@ const Home = () => {
 				const res = await fetch(`/api?lat=${coords.lat}&lon=${coords.lon}`);
 				const data = await res.json();
 				setWeatherData(data);
-				// TODO: reverse geocoding. reference: https://nominatim.org/release-docs/develop/api/Reverse/
+				const nominatim =
+					await fetch(`https://nominatim.openstreetmap.org/reverse?lat=${coords.lat}&lon=${coords.lon}&format=json&zoom=10
+`);
+				const nmData = await nominatim.json();
+				setLocation(nmData);
 			}
 		};
 		fetchData().catch(console.error);
@@ -46,6 +53,11 @@ const Home = () => {
 			) : (
 				<>
 					<h1>{weatherData.current.weather[0].main}</h1>
+					<h2>{`${location?.address.village + ","} ${
+						location?.address.state + ","
+					} ${
+						location?.address.region + ","
+					} ${location?.address.country_code.toUpperCase()}`}</h2>
 					<p>{weatherData.current.weather[0].description}</p>
 					<p>{weatherData.current.temp} celsius</p>
 					<p>feels like {weatherData.current.feels_like} celsius</p>

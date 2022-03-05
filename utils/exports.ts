@@ -68,3 +68,21 @@ export type coordinates = {
 	lat: number;
 	lon: number;
 };
+
+// nominatim reverse geocoding type
+export interface nmStruct extends coordinates {
+	display_name: string;
+	licence: string;
+	osm_id: number;
+	osm_type: string;
+	place_id: number;
+	address: {
+		country: string;
+		country_code: string;
+		postcode: number;
+		region: string;
+		state: string;
+		village: string;
+	};
+	boundingbox: number[];
+}
