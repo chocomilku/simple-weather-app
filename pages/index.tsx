@@ -33,9 +33,11 @@ const Home = () => {
 				const res = await fetch(`/api?lat=${coords.lat}&lon=${coords.lon}`);
 				const data = await res.json();
 				setWeatherData(data);
-				const nominatim =
-					await fetch(`https://nominatim.openstreetmap.org/reverse?lat=${coords.lat}&lon=${coords.lon}&format=json&zoom=10
-`);
+
+				// fetches location name from coordinates. API provided by Nominatim
+				const nominatim = await fetch(
+					`https://nominatim.openstreetmap.org/reverse?lat=${coords.lat}&lon=${coords.lon}&format=json&zoom=10`
+				);
 				const nmData = await nominatim.json();
 				setLocation(nmData);
 			}
@@ -53,11 +55,11 @@ const Home = () => {
 			) : (
 				<>
 					<h1>{weatherData.current.weather[0].main}</h1>
-					<h2>{`${location?.address.village + ","} ${
-						location?.address.state + ","
-					} ${
-						location?.address.region + ","
-					} ${location?.address.country_code.toUpperCase()}`}</h2>
+					<h2>{`${location?.address.village + ", "}${
+						location?.address.state + ", "
+					}${
+						location?.address.region + ", "
+					}${location?.address.country_code.toUpperCase()}`}</h2>
 					<p>{weatherData.current.weather[0].description}</p>
 					<p>{weatherData.current.temp} celsius</p>
 					<p>feels like {weatherData.current.feels_like} celsius</p>
