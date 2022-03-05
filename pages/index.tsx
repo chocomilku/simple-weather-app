@@ -59,11 +59,19 @@ const Home = () => {
 					{!location ? (
 						""
 					) : (
-						<h2>{`${location?.address.village + ", "}${
-							location?.address.state + ", "
-						}${
-							location?.address.region + ", "
-						}${location?.address.country_code.toUpperCase()}`}</h2>
+						<h2>{`${undefinedCatcher(
+							true,
+							location?.address.village
+						)}${undefinedCatcher(
+							true,
+							location?.address.state
+						)}${undefinedCatcher(
+							true,
+							location?.address.region
+						)}${undefinedCatcher(
+							false,
+							location?.address.country_code
+						).toUpperCase()}`}</h2>
 					)}
 					<p>{weatherData.current.weather[0].description}</p>
 					<p>{weatherData.current.temp} celsius</p>
@@ -76,3 +84,15 @@ const Home = () => {
 };
 
 export default Home;
+
+/**
+ * checks if the string even exists. if not, returns nothing
+ * @param comma add comma after word or not
+ * @param data text to be checked and return
+ * @returns a string or nothing with comma or not
+ */
+const undefinedCatcher = (comma: boolean, data?: string): string => {
+	if (!data) return "";
+	if (!comma) return data;
+	return data + ", ";
+};
