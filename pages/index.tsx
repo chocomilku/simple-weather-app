@@ -55,11 +55,16 @@ const Home = () => {
 			) : (
 				<>
 					<h1>{weatherData.current.weather[0].main}</h1>
-					<h2>{`${location?.address.village + ", "}${
-						location?.address.state + ", "
-					}${
-						location?.address.region + ", "
-					}${location?.address.country_code.toUpperCase()}`}</h2>
+					{/* handle undefined location */}
+					{!location ? (
+						""
+					) : (
+						<h2>{`${location?.address.village + ", "}${
+							location?.address.state + ", "
+						}${
+							location?.address.region + ", "
+						}${location?.address.country_code.toUpperCase()}`}</h2>
+					)}
 					<p>{weatherData.current.weather[0].description}</p>
 					<p>{weatherData.current.temp} celsius</p>
 					<p>feels like {weatherData.current.feels_like} celsius</p>
