@@ -79,10 +79,12 @@ export interface nmStruct extends coordinates {
 	address: {
 		country: string;
 		country_code: string;
-		postcode: number;
+		postcode?: number;
 		region: string;
-		state: string;
-		village: string;
+		state?: string;
+		state_district?: string;
+		village?: string;
+		city?: string;
 	};
 	boundingbox: number[];
 }

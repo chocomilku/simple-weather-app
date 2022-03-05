@@ -61,10 +61,12 @@ const Home = () => {
 					) : (
 						<h2>{`${undefinedCatcher(
 							true,
-							location?.address.village
+							location?.address.village,
+							location?.address.state_district
 						)}${undefinedCatcher(
 							true,
-							location?.address.state
+							location?.address.state,
+							location?.address.city
 						)}${undefinedCatcher(
 							true,
 							location?.address.region
@@ -91,8 +93,17 @@ export default Home;
  * @param data text to be checked and return
  * @returns a string or nothing with comma or not
  */
-const undefinedCatcher = (comma: boolean, data?: string): string => {
-	if (!data) return "";
-	if (!comma) return data;
-	return data + ", ";
+const undefinedCatcher = (
+	comma: boolean,
+	data?: string,
+	dataFallback?: string
+): string => {
+	let hold: string | null | undefined;
+
+	if (!data && !dataFallback) return "";
+	if (!data && dataFallback) hold = dataFallback;
+	if (data) hold = data;
+
+	if (!comma && hold) return hold;
+	return hold + ", ";
 };
