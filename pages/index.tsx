@@ -14,6 +14,14 @@ const Home = () => {
 	// reverse geocoding data
 	const [location, setLocation] = useState<nmStruct>();
 
+	// store search bar input
+	const [search, setSearch] = useState<string>("");
+
+	// prevent reload on submit
+	const handleSubmit = (event: any) => {
+		event.preventDefault();
+	};
+
 	// fetches data from the api and sets it to the useState hook above
 	useEffect(() => {
 		const fetchData = async () => {
@@ -78,7 +86,21 @@ const Home = () => {
 					<p>{weatherData.current.weather[0].description}</p>
 					<p>{weatherData.current.temp} celsius</p>
 					<p>feels like {weatherData.current.feels_like} celsius</p>
-					thinking emoji
+					<form onSubmit={handleSubmit}>
+						<label>
+							<p>Search Location</p>
+							<input
+								type="text"
+								value={search}
+								onChange={(e) => setSearch(e.target.value)}
+							/>
+							<button type="submit">Search</button>
+							<p>
+								{search}: isNumber? {}
+								{search == undefined ? "" : isNumber(search) + ""}
+							</p>
+						</label>
+					</form>
 				</>
 			)}
 		</>
@@ -86,6 +108,19 @@ const Home = () => {
 };
 
 export default Home;
+
+/**
+ * checks the string if its a number.
+ * the function omits commas so checking coordinates with commas in them doesn't return a false positive
+ * @param thing parameter to check
+ * @returns true if its a number, false if anything else
+ */
+const isNumber = (thing: string): boolean => {
+	const theThing = thing.split(",").join("");
+	if (Math.abs(theThing.length) == 0) return false;
+	const check: boolean = !isNaN(+theThing);
+	return check;
+};
 
 /**
  * checks if the string even exists. if not, returns nothing
