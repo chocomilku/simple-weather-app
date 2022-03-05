@@ -43,7 +43,7 @@ const Home = () => {
 			}
 		};
 		fetchData().catch(console.error);
-	}, [coords]);
+	}, [coords, geoOK]);
 	return (
 		<>
 			{/* conditional if something error happened to the useState hook like if it returned nothing*/}
