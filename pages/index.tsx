@@ -18,8 +18,16 @@ const Home = () => {
 	const [search, setSearch] = useState<string>("");
 
 	// prevent reload on submit
-	const handleSubmit = (event: any) => {
+	const handleSubmit = (event: any): void => {
 		event.preventDefault();
+
+		if (isNumber(search)) {
+			const valueCoords = search.split(",").join("").split(" ");
+			setCoords({
+				lat: parseInt(valueCoords[0]),
+				lon: parseInt(valueCoords[1]),
+			});
+		}
 	};
 
 	// fetches data from the api and sets it to the useState hook above
@@ -96,7 +104,7 @@ const Home = () => {
 							/>
 							<button type="submit">Search</button>
 							<p>
-								{search}: isNumber? {}
+								{search}: coordinates? {}
 								{search == undefined ? "" : isNumber(search) + ""}
 							</p>
 						</label>
@@ -116,7 +124,7 @@ export default Home;
  * @returns true if its a number, false if anything else
  */
 const isNumber = (thing: string): boolean => {
-	const theThing = thing.split(",").join("");
+	const theThing = thing.split(/[ \.,]+/g).join("");
 	if (Math.abs(theThing.length) == 0) return false;
 	const check: boolean = !isNaN(+theThing);
 	return check;
