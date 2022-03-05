@@ -36,7 +36,7 @@ const Home = () => {
 
 				// fetches location name from coordinates. API provided by Nominatim
 				const nominatim = await fetch(
-					`https://nominatim.openstreetmap.org/reverse?lat=${coords.lat}&lon=${coords.lon}&format=json&zoom=10`
+					`https://nominatim.openstreetmap.org/reverse?lat=${coords.lat}&lon=${coords.lon}&format=json&zoom=10&addressdetails=1&extratags=0&namedetails=0`
 				);
 				const nmData = await nominatim.json();
 				setLocation(nmData);
