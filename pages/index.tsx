@@ -91,6 +91,7 @@ export default Home;
  * checks if the string even exists. if not, returns nothing
  * @param comma add comma after word or not
  * @param data text to be checked and return
+ * @param dataFallback next to be checked if data is not present and returns this if it is
  * @returns a string or nothing with comma or not
  */
 const undefinedCatcher = (
