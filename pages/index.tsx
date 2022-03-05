@@ -22,7 +22,11 @@ const Home = () => {
 		event.preventDefault();
 
 		if (isNumber(search)) {
-			const valueCoords = search.split(",").join("").split(" ");
+			const goods = search.split(",");
+			const valueCoords = goods.map((item) => {
+				return item.replace(/\s/g, "");
+			});
+
 			setCoords({
 				lat: parseInt(valueCoords[0]),
 				lon: parseInt(valueCoords[1]),
@@ -85,7 +89,8 @@ const Home = () => {
 							location?.address.city
 						)}${undefinedCatcher(
 							true,
-							location?.address.region
+							location?.address.region,
+							location.address.country
 						)}${undefinedCatcher(
 							false,
 							location?.address.country_code
