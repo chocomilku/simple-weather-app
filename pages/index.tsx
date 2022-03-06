@@ -56,7 +56,7 @@ const Home = () => {
 	// fetches data from the api and sets it to the useState hook above
 	useEffect(() => {
 		const fetchData = async () => {
-			// checks if the geoOK useState hook is false. if true, get location from browser. this mechanism is here to stop asking location every second.
+			// checks if the geoOK useState hook is false. if false, get location from browser. this mechanism is here to stop asking location every second.
 			if (!geoOK) {
 				navigator.geolocation.getCurrentPosition((pos) => {
 					setCoords({
@@ -83,6 +83,7 @@ const Home = () => {
 		};
 		fetchData().catch(console.error);
 	}, [coords, geoOK]);
+
 	return (
 		<>
 			{/* conditional if something error happened to the useState hook like if it returned nothing*/}
@@ -114,10 +115,6 @@ const Home = () => {
 								onChange={(e) => setSearch(e.target.value)}
 							/>
 							<button type="submit">Search</button>
-							<p>
-								{search}: coordinates? {}
-								{search == undefined ? "" : isNumber(search) + ""}
-							</p>
 						</label>
 					</form>
 					<button
