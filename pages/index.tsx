@@ -4,6 +4,7 @@ import moment from "moment";
 import { DataCard } from "../components/DataCard";
 import { DataCardDaily } from "../components/DataCardDaily";
 import styles from "../styles/Home.module.css";
+import { Container, Row, Col } from "react-bootstrap";
 
 const Home = () => {
 	// stores the data from the api in this useState hook
@@ -134,52 +135,61 @@ const Home = () => {
 					<p>Geolocation may not be supported or disabled.</p>
 				</>
 			) : (
-				<>
-					<h1>{weatherData.current.weather[0].main}</h1>
-					{/* handle undefined location */}
-					{!location ? (
-						""
-					) : (
-						<h2>
-							{locationCheck(location.display_name, location.address?.postcode)}
-						</h2>
-					)}
-					<p>{`Last Updated at ${moment
-						.unix(weatherData.current.dt)
-						.format("llll")}`}</p>
-					<p>{weatherData.current.weather[0].description}</p>
-					<p>{weatherData.current.temp} celsius</p>
-					<p>feels like {weatherData.current.feels_like} celsius</p>
-					<form onSubmit={handleSubmit}>
-						<label>
-							<p>Search Location</p>
-							<input
-								type="text"
-								value={search}
-								onChange={(e) => setSearch(e.target.value)}
-							/>
-							<button type="submit">Search</button>
-						</label>
-					</form>
-					<button
-						onClick={() => {
-							setGeoOK(!geoOK);
-						}}>
-						Use Current Location
-					</button>
-					<h1>Hourly Forecast</h1>
-					<div className={styles.cardContainer}>
-						{weatherData.hourly.slice(0, 25).map((hour, i) => {
-							return <DataCard data={hour} key={i} />;
-						})}
+				<main className="container-fluid">
+					<div>
+						<div>
+							<h1>{weatherData.current.weather[0].main}</h1>
+							{/* handle undefined location */}
+							{!location ? (
+								""
+							) : (
+								<h2>
+									{locationCheck(
+										location.display_name,
+										location.address?.postcode
+									)}
+								</h2>
+							)}
+							<p>{`Last Updated at ${moment
+								.unix(weatherData.current.dt)
+								.format("llll")}`}</p>
+							<p>{weatherData.current.weather[0].description}</p>
+							<p>{weatherData.current.temp} celsius</p>
+							<p>feels like {weatherData.current.feels_like} celsius</p>
+							<form onSubmit={handleSubmit}>
+								<label>
+									<p>Search Location</p>
+									<input
+										type="text"
+										value={search}
+										onChange={(e) => setSearch(e.target.value)}
+									/>
+									<button type="submit">Search</button>
+								</label>
+							</form>
+							<button
+								onClick={() => {
+									setGeoOK(!geoOK);
+								}}>
+								Use Current Location
+							</button>
+						</div>
+						<div>
+							<h1>Hourly Forecast</h1>
+							<div className={styles.cardContainer}>
+								{weatherData.hourly.slice(0, 25).map((hour, i) => {
+									return <DataCard data={hour} key={i} />;
+								})}
+							</div>
+							<h1>Daily Forecast</h1>
+							<div className={styles.cardContainer}>
+								{weatherData.daily.map((day, i) => {
+									return <DataCardDaily data={day} key={i} />;
+								})}
+							</div>
+						</div>
 					</div>
-					<h1>Daily Forecast</h1>
-					<div className={styles.cardContainer}>
-						{weatherData.daily.map((day, i) => {
-							return <DataCardDaily data={day} key={i} />;
-						})}
-					</div>
-				</>
+				</main>
 			)}
 		</>
 	);
