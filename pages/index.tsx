@@ -18,7 +18,7 @@ const Home = () => {
 	const [search, setSearch] = useState<string>("");
 
 	// prevent reload on submit
-	const handleSubmit = (event: any): void => {
+	const handleSubmit = async (event: any): Promise<void> => {
 		event.preventDefault();
 
 		if (isNumber(search)) {
@@ -35,6 +35,17 @@ const Home = () => {
 			setCoords({
 				lat: parseInt(valueCoords[0]),
 				lon: parseInt(valueCoords[1]),
+			});
+		} else {
+			const res = await fetch(
+				`https://nominatim.openstreetmap.org/search?format=json&q=${search}`
+			);
+			const data = await res.json();
+			const final: coordinates = data[0];
+			console.log("query", final);
+			setCoords({
+				lat: final.lat,
+				lon: final.lon,
 			});
 		}
 	};
