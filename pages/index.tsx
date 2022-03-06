@@ -17,6 +17,11 @@ const Home = () => {
 	// store search bar input
 	const [search, setSearch] = useState<string>("");
 
+	const [stringLocation, setStringLocation] = useState<boolean>(false);
+
+	// stores error message
+	const [errorMessage, setErrorMessage] = useState<string>("");
+
 	// prevent reload on submit and "submits" results and sometimes process it to a useState hook
 	const handleSubmit = async (event: any): Promise<void> => {
 		event.preventDefault();
@@ -40,16 +45,7 @@ const Home = () => {
 				lon: parseInt(valueCoords[1]),
 			});
 		} else {
-			// searches location coordinates via nominatim.
-			const res = await fetch(
-				`https://nominatim.openstreetmap.org/search?format=json&q=${search}`
-			);
-			const data = await res.json();
-			const final: coordinates = data[0];
-			setCoords({
-				lat: final.lat,
-				lon: final.lon,
-			});
+			setStringLocation(true);
 		}
 	};
 
@@ -81,11 +77,52 @@ const Home = () => {
 				setLocation(nmData);
 			}
 		};
+
+		const fetchLocation = async () => {
+			// searches location coordinates via nominatim.
+			if (stringLocation) {
+				try {
+					console.log("yes");
+					const res = await fetch(
+						`https://nominatim.openstreetmap.org/search?format=json&q=${search}`
+					);
+					const data = await res.json();
+					const final: coordinates = data[0];
+					console.log(data);
+					setErrorMessage("");
+					setCoords({
+						lat: final.lat,
+						lon: final.lon,
+					});
+				} catch (e) {
+					setErrorMessage("No results found.");
+				}
+				setStringLocation(false);
+			}
+		};
+
 		fetchData().catch(console.error);
-	}, [coords, geoOK]);
+		fetchLocation().catch(console.error);
+	}, [coords, geoOK, stringLocation]);
 
 	return (
 		<>
+			{errorMessage && (
+				<>
+					<style jsx>
+						{`
+							p {
+								color: red;
+								position: absolute;
+								top: 0;
+								left: 0;
+								font-size: 2rem;
+							}
+						`}
+					</style>
+					<p>{errorMessage}</p>
+				</>
+			)}
 			{/* conditional if something error happened to the useState hook like if it returned nothing*/}
 			{!weatherData || !weatherData.current ? (
 				<>
@@ -97,7 +134,7 @@ const Home = () => {
 					<h1>{weatherData.current.weather[0].main}</h1>
 					{/* handle undefined location */}
 					{!location ? (
-						""
+						<h2>ukuk</h2>
 					) : (
 						<h2>
 							{locationCheck(location.display_name, location.address?.postcode)}
@@ -153,5 +190,6 @@ const isNumber = (thing: string): boolean => {
 
 const locationCheck = (name: string, postcode?: number): string => {
 	if (!postcode) return name;
+	if (!name) return "help";
 	return name.replace(postcode + ", ", "");
 };
