@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { coordinates, nmStruct, owmStruct } from "../utils/exports";
 import moment from "moment";
 import { DataCard } from "../components/DataCard";
+import { DataCardDaily } from "../components/DataCardDaily";
 import styles from "../styles/Home.module.css";
 
 const Home = () => {
@@ -165,9 +166,16 @@ const Home = () => {
 						}}>
 						Use Current Location
 					</button>
+					<h1>Hourly Forecast</h1>
 					<div className={styles.cardContainer}>
-						{weatherData.hourly.map((hour, i) => {
+						{weatherData.hourly.slice(0, 25).map((hour, i) => {
 							return <DataCard data={hour} key={i} />;
+						})}
+					</div>
+					<h1>Daily Forecast</h1>
+					<div className={styles.cardContainer}>
+						{weatherData.daily.map((day, i) => {
+							return <DataCardDaily data={day} key={i} />;
 						})}
 					</div>
 				</>

@@ -35,7 +35,7 @@ interface topCurrentData extends currentData {
 	sunset: number;
 }
 
-interface dailyCurrentData extends topCurrentData {
+export interface dailyCurrentData extends topCurrentData {
 	moonrise: number;
 	moonset: number;
 	moon_phase: number;

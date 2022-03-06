@@ -1,8 +1,7 @@
 .cardContainer {
 	display: flex;
 	flex-direction: row;
-	/* flex-wrap: wrap; */
-	width: auto;
+	flex-wrap: wrap;
+	width: 100%;
 	height: auto;
-	overflow-x: scroll;
 }
