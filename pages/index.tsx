@@ -17,32 +17,35 @@ const Home = () => {
 	// store search bar input
 	const [search, setSearch] = useState<string>("");
 
-	// prevent reload on submit
+	// prevent reload on submit and "submits" results and sometimes process it to a useState hook
 	const handleSubmit = async (event: any): Promise<void> => {
 		event.preventDefault();
 
 		if (isNumber(search)) {
+			// checks if the query received is separated by a comma or a space.
+			// to detect, check if the length of the array is 1. if its true, it means that the query is separated by spaces instead of a comma.
 			let goods;
 			goods = search.split(",");
 			if (goods.length == 1) {
 				goods = search.split(" ");
 			}
+
+			// removes extra whitespace for each item in the array of coordinates
 			const valueCoords = goods.map((item) => {
 				return item.replace(/\s/g, "");
 			});
-			console.log(valueCoords);
 
 			setCoords({
 				lat: parseInt(valueCoords[0]),
 				lon: parseInt(valueCoords[1]),
 			});
 		} else {
+			// searches location coordinates via nominatim.
 			const res = await fetch(
 				`https://nominatim.openstreetmap.org/search?format=json&q=${search}`
 			);
 			const data = await res.json();
 			const final: coordinates = data[0];
-			console.log("query", final);
 			setCoords({
 				lat: final.lat,
 				lon: final.lon,
@@ -75,7 +78,6 @@ const Home = () => {
 					`https://nominatim.openstreetmap.org/reverse?lat=${coords.lat}&lon=${coords.lon}&format=json&zoom=10&addressdetails=1&extratags=0&namedetails=0`
 				);
 				const nmData = await nominatim.json();
-				console.log(nmData);
 				setLocation(nmData);
 			}
 		};
@@ -118,6 +120,12 @@ const Home = () => {
 							</p>
 						</label>
 					</form>
+					<button
+						onClick={() => {
+							setGeoOK(!geoOK);
+						}}>
+						Use Current Location
+					</button>
 				</>
 			)}
 		</>
