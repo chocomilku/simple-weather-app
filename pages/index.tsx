@@ -85,22 +85,9 @@ const Home = () => {
 					{!location ? (
 						""
 					) : (
-						<h2>{`${undefinedCatcher(
-							true,
-							location?.address.village,
-							location?.address.state_district
-						)}${undefinedCatcher(
-							true,
-							location?.address.state,
-							location?.address.city
-						)}${undefinedCatcher(
-							true,
-							location?.address.region,
-							location.address.country
-						)}${undefinedCatcher(
-							false,
-							location?.address.country_code
-						).toUpperCase()}`}</h2>
+						<h2>
+							{locationCheck(location.display_name, location.address?.postcode)}
+						</h2>
 					)}
 					<p>{weatherData.current.weather[0].description}</p>
 					<p>{weatherData.current.temp} celsius</p>
@@ -142,25 +129,13 @@ const isNumber = (thing: string): boolean => {
 };
 
 /**
- * checks if the string even exists. if not, returns nothing
- * @param comma add comma after word or not
- * @param data text to be checked and return
- * @param dataFallback next to be checked if data is not present and returns this if it is
- * @returns a string or nothing with comma or not
+ * removes postcode if it exists
+ * @param name string to be shown
+ * @param postcode number object to be omitted
+ * @returns string that is passed with checks
  */
-const undefinedCatcher = (
-	comma: boolean,
-	data?: string,
-	dataFallback?: string
-): string => {
-	let hold: string | null | undefined;
 
-	if (!data && !dataFallback) return "";
-	if (!data && dataFallback) hold = dataFallback;
-	if (data) hold = data;
-
-	if (!comma && hold) return hold;
-	return hold + ", ";
+const locationCheck = (name: string, postcode?: number): string => {
+	if (!postcode) return name;
+	return name.replace(postcode + ", ", "");
 };
-
-const locationCheck = (name: string, postcode?: number) => {};

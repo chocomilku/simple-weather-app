@@ -76,15 +76,10 @@ export interface nmStruct extends coordinates {
 	osm_id: number;
 	osm_type: string;
 	place_id: number;
-	address: {
+	address?: {
 		country: string;
 		country_code: string;
 		postcode?: number;
-		region: string;
-		state?: string;
-		state_district?: string;
-		village?: string;
-		city?: string;
 	};
 	boundingbox: number[];
 }
