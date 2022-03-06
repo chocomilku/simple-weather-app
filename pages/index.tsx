@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { coordinates, nmStruct, owmStruct } from "../utils/exports";
 import moment from "moment";
+import { DataCard } from "../components/DataCard";
+import styles from "../styles/Home.module.css";
 
 const Home = () => {
 	// stores the data from the api in this useState hook
@@ -163,6 +165,11 @@ const Home = () => {
 						}}>
 						Use Current Location
 					</button>
+					<div className={styles.cardContainer}>
+						{weatherData.hourly.map((hour, i) => {
+							return <DataCard data={hour} key={i} />;
+						})}
+					</div>
 				</>
 			)}
 		</>

@@ -58,7 +58,7 @@ interface dailyCurrentData extends topCurrentData {
 	rain: number;
 }
 
-interface hourCurrentData extends currentData {
+export interface hourCurrentData extends currentData {
 	pop: number;
 	wind_gust: number;
 }
