@@ -22,10 +22,15 @@ const Home = () => {
 		event.preventDefault();
 
 		if (isNumber(search)) {
-			const goods = search.split(",");
+			let goods;
+			goods = search.split(",");
+			if (goods.length == 1) {
+				goods = search.split(" ");
+			}
 			const valueCoords = goods.map((item) => {
 				return item.replace(/\s/g, "");
 			});
+			console.log(valueCoords);
 
 			setCoords({
 				lat: parseInt(valueCoords[0]),
@@ -59,6 +64,7 @@ const Home = () => {
 					`https://nominatim.openstreetmap.org/reverse?lat=${coords.lat}&lon=${coords.lon}&format=json&zoom=10&addressdetails=1&extratags=0&namedetails=0`
 				);
 				const nmData = await nominatim.json();
+				console.log(nmData);
 				setLocation(nmData);
 			}
 		};
@@ -156,3 +162,5 @@ const undefinedCatcher = (
 	if (!comma && hold) return hold;
 	return hold + ", ";
 };
+
+const locationCheck = (name: string, postcode?: number) => {};
