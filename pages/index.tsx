@@ -21,6 +21,7 @@ const Home = () => {
 	// store search bar input
 	const [search, setSearch] = useState<string>("");
 
+	// stores location name to be displayed
 	const [stringLocation, setStringLocation] = useState<boolean>(false);
 
 	// stores error message
