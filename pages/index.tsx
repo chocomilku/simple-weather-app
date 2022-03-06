@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { coordinates, nmStruct, owmStruct } from "../utils/exports";
+import moment from "moment";
 
 const Home = () => {
 	// stores the data from the api in this useState hook
@@ -88,7 +89,6 @@ const Home = () => {
 					);
 					const data = await res.json();
 					const final: coordinates = data[0];
-					console.log(data);
 					setErrorMessage("");
 					setCoords({
 						lat: final.lat,
@@ -134,12 +134,15 @@ const Home = () => {
 					<h1>{weatherData.current.weather[0].main}</h1>
 					{/* handle undefined location */}
 					{!location ? (
-						<h2>ukuk</h2>
+						""
 					) : (
 						<h2>
 							{locationCheck(location.display_name, location.address?.postcode)}
 						</h2>
 					)}
+					<p>{`Last Updated at ${moment
+						.unix(weatherData.current.dt)
+						.format("llll")}`}</p>
 					<p>{weatherData.current.weather[0].description}</p>
 					<p>{weatherData.current.temp} celsius</p>
 					<p>feels like {weatherData.current.feels_like} celsius</p>
@@ -190,6 +193,5 @@ const isNumber = (thing: string): boolean => {
 
 const locationCheck = (name: string, postcode?: number): string => {
 	if (!postcode) return name;
-	if (!name) return "help";
 	return name.replace(postcode + ", ", "");
 };
