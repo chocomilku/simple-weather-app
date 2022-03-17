@@ -1,5 +1,6 @@
 .card {
-	width: 200px;
+	width: var(--card-width);
 	height: auto;
 	border: 1px solid red;
+	padding: 1rem;
 }

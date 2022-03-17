@@ -1,5 +1,5 @@
 import type { dailyCurrentData } from "../utils/exports";
-import styles from "../styles/DataCard.module.css";
+import styles from "../styles/DataCard.module.scss";
 import moment from "moment";
 
 type hourlyData = {

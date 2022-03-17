@@ -1,0 +1,6 @@
+.cardContainer {
+	display: grid;
+	grid-auto-flow: column;
+	gap: var(--card-gap);
+	overflow-x: scroll;
+}

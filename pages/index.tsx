@@ -3,8 +3,7 @@ import { coordinates, nmStruct, owmStruct } from "../utils/exports";
 import moment from "moment";
 import { DataCard } from "../components/DataCard";
 import { DataCardDaily } from "../components/DataCardDaily";
-import styles from "../styles/Home.module.css";
-import { Container, Row, Col } from "react-bootstrap";
+import styles from "../styles/Home.module.scss";
 
 const Home = () => {
 	// stores the data from the api in this useState hook
@@ -136,8 +135,8 @@ const Home = () => {
 				</>
 			) : (
 				<main className="container-fluid">
-					<div>
-						<div>
+					<div className="">
+						<div className="">
 							<h1>{weatherData.current.weather[0].main}</h1>
 							{/* handle undefined location */}
 							{!location ? (
@@ -174,7 +173,7 @@ const Home = () => {
 								Use Current Location
 							</button>
 						</div>
-						<div>
+						<div className="">
 							<h1>Hourly Forecast</h1>
 							<div className={styles.cardContainer}>
 								{weatherData.hourly.slice(0, 25).map((hour, i) => {
