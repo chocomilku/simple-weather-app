@@ -4,3 +4,8 @@
 	gap: var(--card-gap);
 	overflow-x: scroll;
 }
+
+.mainContent {
+	width: 100%;
+	min-height: 100vh;
+}
